@@ -19,11 +19,12 @@ public class SmsReceiver extends BroadcastReceiver {
             SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
             if (messages == null || messages.length == 0) return;
 
-            String sender = messages[0].getOriginatingAddress();
-            if (sender == null) sender = "Unknown";
-
+            String sender = "Unknown";
             StringBuilder fullBody = new StringBuilder();
             for (SmsMessage msg : messages) {
+                if (msg.getOriginatingAddress() != null) {
+                    sender = msg.getOriginatingAddress();
+                }
                 if (msg.getMessageBody() != null) {
                     fullBody.append(msg.getMessageBody());
                 }
